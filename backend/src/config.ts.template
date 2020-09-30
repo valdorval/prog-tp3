@@ -1,0 +1,16 @@
+const applicationName = 'full-archetype';
+const databaseUrl = 'localhost';
+const databasePassword = '';
+
+export const config = {
+    applicationName: applicationName,
+    listeningDomain: 'localhost',
+    listeningPort: 1280,
+    database: {
+        url: databaseUrl,
+        port: 3306,
+        username: applicationName,
+        password: databasePassword,
+        database: applicationName
+    }
+};

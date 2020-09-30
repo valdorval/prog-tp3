@@ -1,0 +1,11 @@
+config.js
+config.json
+node_modules
+build
+dist
+.vscode
+config.ts
+yarn-error.log
+files
+report.html
+photos

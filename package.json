@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "common"
+  ],
+  "workspace-sources": {
+    "backend": [
+      "backend/src"
+    ],
+    "frontend": [
+      "frontend/src"
+    ],
+    "common": [
+      "common/src"
+    ]
+  },
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "tslint-react": "^5.0.0",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "localSetup": "node localsetup.js"
+  },
+  "dependencies": {
+    "react-router-dom": "^5.2.0"
+  }
+}

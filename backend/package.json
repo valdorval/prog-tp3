@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@types/body-parser": "^1.17.1",
+    "@types/errorhandler": "^0.0.32",
+    "@types/express": "^4.17.2",
+    "@types/knex": "^0.16.1",
+    "@types/node": "^14.0.27",
+    "body-parser": "^1.19.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "knex": "^0.21.5",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4",
+    "source-map-support": "^0.5.16"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build-watch": "tsc -w",
+    "serve": "node dist/main.js",
+    "debug": "nodemon --delay 2 dist/main.js"
+  }
+}

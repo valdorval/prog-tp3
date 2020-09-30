@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "removeComments": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "preserveConstEnums": true,
+        "lib": [
+            "es2020"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "module": "commonjs",
+        "sourceMap": true,
+        "outDir": "dist",
+        "rootDir": "./src",
+        "declaration": true,
+        "noEmitOnError": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "src/**/*",
+        "typings/**/*"
+    ]
+}
