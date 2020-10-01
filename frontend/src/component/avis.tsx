@@ -16,8 +16,10 @@ export class Avis extends React.Component<Props, State> {
      public render() {
 
           return <>
-               <h1>Avis clients</h1>
-               <AfficherCommentaire />
+               <div className='avis'>
+                    <h1 className='center'>Avis clients</h1>
+                    <AfficherCommentaire />
+               </div>
           </>;
      }
 

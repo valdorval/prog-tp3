@@ -9,10 +9,12 @@ interface State {
      message: string;
      name?: string;
      courriel?: string;
+     utilisateurId?: number;
+     messageId?: number;
 }
 
-export class NouveauCommentaire extends React.Component<Props, State> {
 
+export class NouveauCommentaire extends React.Component<Props, State> {
      private api = new Api;
 
      constructor(props: Props) {
@@ -20,21 +22,13 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           this.state = { message: '' };
      }
 
-     // public async componentDidMount() {
-     //      const messages = (await this.api.getJson('/commentaire') as any[]).map(CommentaireModel.fromJSON);
-     //      const utilisateurs = (await this.api.getJson('/utilisateur') as any[]).map(UtilisateurModel.fromJSON);
-     //      this.setState({ messages, utilisateurs });
-     // }
-
      public render() {
-          // const { messages, utilisateurs } = this.state;
-          // if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
-               <form onSubmit={this.newCommentaire}>
+               <form onSubmit={this.newCommentaire} className='center'>
                     <div><input type='text' placeholder='Votre nom' value={this.state.name ?? ''} onChange={e => this.setState({ name: e.target.value })} /></div>
                     <div><input type='email' placeholder='Votre adresse courriel' value={this.state.courriel ?? ''} onChange={e => this.setState({ courriel: e.target.value })} /></div>
-                    <div><textarea placeholder='Votre commentaire' required={true} value={this.state.message ?? ''} onChange={e => this.setState({ message: e.target.value })} /></div>
+                    <div><textarea maxLength={500} placeholder='Votre commentaire' required={true} value={this.state.message ?? ''} onChange={e => this.setState({ message: e.target.value })} /></div>
                     <button>Nouveau commentaire</button>
                </form>
           </>;
@@ -42,12 +36,15 @@ export class NouveauCommentaire extends React.Component<Props, State> {
 
      private newCommentaire = async (e: React.FormEvent) => {
           e.preventDefault();
-          const commentaire = { message: this.state.message, name: this.state.name, courriel: this.state.courriel, date: Date.now() };
+          let userId = 6;
+          const commentaire = { message: this.state.message, date: Date.now(), utilisateurId: userId };
           const createCommentaire = await this.api.postGetJson('/commentaire', commentaire);
+          const messageId = (await this.api.getJson('/commentaire') as any[]).map(CommentaireModel.fromJSON);
+          const auteur = { name: this.state.name, courriel: this.state.courriel, utilisateurId: ++userId, messageId: messageId.map(msg => msg.commentaireId) }
+          const createAuteur = await this.api.postGetJson('/utilisateur', auteur);
           this.state.commentaire!.push(createCommentaire);
-          this.setState({ commentaire: this.state.commentaire, name: '', courriel: '' })
+          this.state.commentaire!.push(createAuteur);
+          this.setState({ commentaire: this.state.commentaire, name: '', courriel: '', message: '' })
      }
-
-
 
 }

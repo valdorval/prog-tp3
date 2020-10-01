@@ -32,17 +32,18 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                {messages.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <div key={message.commentaireId} className='content'>
-
                          <div className='flex texte-flex'>
-                              <div className='texte'>
+                              <div className={message.show ? 'display-none' : 'texte'}>
                                    <h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3>
                                    <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                    <p>Commentaire: {message.message}</p>
                               </div>
                               <div className='delete'>
-                                   <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
+                                   <div className='hide'>
+                                        <img src={message.show ? '/img/show.png' : '/img/hide.png'} alt='poubelle' onClick={() => this.cacherCommentaire(message)} />
+                                   </div>
+                                   <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} className={message.show ? 'display-none' : ''} />
                               </div>
-
                          </div>
                     </div>
                })}
@@ -54,6 +55,11 @@ export class AfficherCommentaire extends React.Component<Props, State> {
      private deleteCommentaire = async (commentaireToDelete: CommentaireModel) => {
           await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
+     }
+
+     private cacherCommentaire = async (commentaireToHide: CommentaireModel) => {
+          commentaireToHide.show = !commentaireToHide.show;
+          this.setState({ messages: this.state.messages });
      }
 
 }
