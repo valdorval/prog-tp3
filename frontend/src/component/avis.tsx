@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { AfficherCommentaire } from './affichercommentaire';
 
 interface Props { }
@@ -19,7 +18,6 @@ export class Avis extends React.Component<Props, State> {
           return <>
                <h1>Avis clients</h1>
                <AfficherCommentaire />
-               <Link to='/avis/commentaire'><div className='center'><button className='btn'>Voir le commentaire</button></div></Link>
           </>;
      }
 

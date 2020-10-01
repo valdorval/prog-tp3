@@ -1,0 +1,38 @@
+.flex {
+     display: flex;
+}
+
+.texte {
+     width: 90%;
+}
+
+.texte-flex {
+     justify-content: space-between;
+     align-content: center;
+}
+
+.delete {
+     width: 10%;
+}
+
+.delete img {
+     padding-top: 80px;
+     width: 20px;
+     cursor: pointer;
+}
+
+.content {
+     width: 50%;
+     border-bottom: 1px solid black;
+     margin-bottom: 25px;
+}
+
+textarea {
+     width: 50%;
+     resize: none;
+     height: 25vh;
+}
+
+button {
+     cursor: pointer;
+}

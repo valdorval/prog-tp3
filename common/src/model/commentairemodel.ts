@@ -2,6 +2,7 @@ export class CommentaireModel {
     public commentaireId: number;
     public message: string;
     public date: Date;
+    public utilisateurId: number;
 
     public static fromJSON(jsonCommentaireModel: CommentaireModel) {
         const commentaireModel = new CommentaireModel;
