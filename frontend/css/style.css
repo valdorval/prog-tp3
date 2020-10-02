@@ -1,7 +1,23 @@
+body {
+     font-size: 16pt;
+     font-family: 'Montserrat Alternates', sans-serif;
+     text-align: justify;
+}
+
 .accueil {
      text-align: center;
      width: 70%;
      margin: 0 auto;
+}
+
+a {
+     text-decoration: none;
+     color: rgb(255, 0, 119);
+     transition: all .4s;
+}
+
+a:hover {
+     color: rgb(150, 0, 70);
 }
 
 h1, h2, h3,
@@ -23,22 +39,17 @@ h3 {
      font-weight: 700;
 }
 
-.flex {
-     display: flex;
+h4 {
+     font-size: 24px;
+     font-weight: 700;
 }
 
 .texte {
      width: 90%;
 }
 
-.texte-flex {
-     justify-content: space-between;
-     align-content: center;
-}
-
 .delete {
      width: 10%;
-     position: relative;
 }
 
 .delete img {
@@ -51,10 +62,11 @@ h3 {
 }
 
 .content {
+     position: relative;
      width: 80%;
      border-bottom: 1px solid black;
-     margin-bottom: 25px;
      margin: 0 auto;
+     margin-bottom: 75px;
 }
 
 .center {
@@ -88,7 +100,7 @@ button {
 .hide {
      position: absolute;
      right: 0;
-     top: 15px;
+     top: 0%;
 }
 
 .display-none {

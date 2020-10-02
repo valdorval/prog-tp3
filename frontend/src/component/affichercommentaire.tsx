@@ -1,5 +1,6 @@
 import { Api } from 'api';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CommentaireModel, UtilisateurModel } from '../../../common';
 import { NouveauCommentaire } from './nouveaucommentaire';
 
@@ -32,9 +33,9 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                {messages.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <div key={message.commentaireId} className='content'>
-                         <div className='flex texte-flex'>
+                         <div className='content-texte'>
                               <div className={message.show ? 'display-none' : 'texte'}>
-                                   <h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3>
+                                   <Link to='/avis/commentaire'><h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3></Link>
                                    <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                    <p>Commentaire: {message.message}</p>
                               </div>
@@ -57,7 +58,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
      }
 
-     private cacherCommentaire = async (commentaireToHide: CommentaireModel) => {
+     private cacherCommentaire = (commentaireToHide: CommentaireModel) => {
           commentaireToHide.show = !commentaireToHide.show;
           this.setState({ messages: this.state.messages });
      }
