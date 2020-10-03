@@ -20,5 +20,6 @@ app.use((_req, res, next) => {
 
 app.use('/commentaire', commentaireRouter);
 app.use('/utilisateur', allusersRouter);
+app.use('/message', messageRouter);
 
 export { app };

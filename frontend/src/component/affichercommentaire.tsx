@@ -35,7 +35,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                     return <div key={message.commentaireId} className='content'>
                          <div className='content-texte'>
                               <div className={message.show ? 'display-none' : 'texte'}>
-                                   <Link to='/avis/commentaire'><h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3></Link>
+                                   <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3></Link>
                                    <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                    <p>Commentaire: {message.message}</p>
                               </div>
@@ -48,7 +48,10 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                          </div>
                     </div>
                })}
-               <NouveauCommentaire />
+               <NouveauCommentaire addCommentaire={message => {
+                    messages.push(message);
+                    this.setState({ messages });
+               }} />
           </>;
 
      }

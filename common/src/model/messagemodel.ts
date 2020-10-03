@@ -1,4 +1,3 @@
-
 export class MessageModel {
     public messageId: number;
     public title: string;
