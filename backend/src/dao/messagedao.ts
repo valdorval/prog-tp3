@@ -1,4 +1,3 @@
-
 import { MessageModel } from 'common';
 import { DBProvider } from '../dbprovider';
 

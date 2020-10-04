@@ -10,7 +10,6 @@ export class Router extends React.Component<{}> {
                <Route path='/avis/:commentaireId' exact={true} component={Commentaire} />
                <Route path='/avis' exact={true}> <Avis /> </Route>
                <Route path='/' exact={true}> <Accueil /> </Route>
-
           </ BrowserRouter>;
      }
 }

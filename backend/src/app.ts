@@ -3,6 +3,7 @@ import errorHandler from 'errorhandler';
 import express from 'express';
 import { allusersRouter } from './router/allusersrouter';
 import { commentaireRouter } from './router/commentairerouter';
+import { messageRouter } from './router/messagerouter';
 const app = express();
 
 app.set('trust proxy', 'loopback');

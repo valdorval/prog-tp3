@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { MessageModel } from '../../../common/dist';
 
 interface Props { }
-interface State { message?: MessageModel[] }
+interface State { message?: MessageModel }
 
 export class Accueil extends React.Component<Props, State> {
 
      constructor(props: Props) {
           super(props);
-          this.state = { message: [] };
+          this.state = {};
      }
 
      public render() {
