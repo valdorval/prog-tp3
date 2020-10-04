@@ -1,5 +1,5 @@
 import { Api } from 'api';
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { MessageModel } from '../../../common/dist';
 
@@ -38,7 +38,7 @@ export class Accueil extends React.Component<Props, State> {
                          <form className='center' onSubmit={this.editMessage}>
                               <div><textarea placeholder='Modifier le message' required={true} value={newMessage ?? ''} onChange={e => {
                                    message.presentation = e.target.value;
-                                   this.setState({ message })
+                                   this.setState({ message });
                               }} /></div>
                               <input type='submit' value='envoyer' />
                          </form>
@@ -52,7 +52,6 @@ export class Accueil extends React.Component<Props, State> {
      private editMessage = async (e: React.FormEvent) => {
           e.preventDefault();
           const message = { message: this.state.message };
-          await this.api.putGetJson('/message/', 1, message);
-
+          await this.api.putGetJson('/message/1', 1, message);
      }
 }

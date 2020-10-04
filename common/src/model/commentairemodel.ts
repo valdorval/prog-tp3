@@ -3,7 +3,7 @@ export class CommentaireModel {
     public message: string;
     public date: Date;
     public utilisateurId: number;
-    public show?: boolean;
+    public hide: number;
 
     public static fromJSON(jsonCommentaireModel: CommentaireModel) {
         const commentaireModel = new CommentaireModel;
