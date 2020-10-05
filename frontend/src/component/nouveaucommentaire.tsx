@@ -1,8 +1,7 @@
 import { Api } from 'api';
 import React from 'react';
-import { CommentaireModel, UtilisateurModel } from '../../../common/dist';
 
-interface Props { addCommentaire(commentaireModel: CommentaireModel, utilisateurModel: UtilisateurModel): void; }
+interface Props { }
 interface State {
      message: string;
      name?: string;
@@ -19,7 +18,6 @@ export class NouveauCommentaire extends React.Component<Props, State> {
      }
 
      public render() {
-
           return <>
                <form onSubmit={this.newCommentaire} className='center'>
                     <div><input type='text' placeholder='Votre nom' value={this.state.name ?? ''} onChange={e => this.setState({ name: e.target.value })} /></div>
@@ -30,17 +28,14 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           </>;
      }
 
+
      private newCommentaire = async (e: React.FormEvent) => {
           e.preventDefault();
           const date = new Date();
           date.toLocaleString();
-          const auteur = { name: this.state.name, courriel: this.state.courriel }
+          const auteur = { name: this.state.name, courriel: this.state.courriel };
           const createAuteur = await this.api.postGetJson('/utilisateur', auteur);
           const commentaire = { message: this.state.message, date: date, utilisateurId: createAuteur.utilisateurId };
-          const createCommentaire = await this.api.postGetJson('/commentaire', commentaire);
-
-          this.setState({ name: '', courriel: '', message: '' });
-          this.props.addCommentaire(createCommentaire, createAuteur);
-     }
-
+          await this.api.postGetJson('/commentaire', commentaire);
+     };
 }

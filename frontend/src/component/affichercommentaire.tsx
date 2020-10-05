@@ -45,32 +45,30 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <form onSubmit={(this.retirerCommentaire)}>
-                                             <input type='submit' value='Retirer le message' />
-                                        </form>
+
+                                        <div className='hide'>
+                                             <button onClick={() => this.retirerCommentaire(message)}> Retirer le commentaire </button>
+                                        </div>
                                    </div>
                               </div>
                               : ''}
-                    </>
+                    </>;
                })}
-               <NouveauCommentaire addCommentaire={(message, utilisateur) => {
-                    this.state.messages!.push(message);
-                    this.state.utilisateurs!.push(utilisateur);
-                    this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
-               }} />
+               <NouveauCommentaire />
           </>;
      }
 
      private deleteCommentaire = async (commentaireToDelete: CommentaireModel) => {
           await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
-     }
+     };
 
-     private retirerCommentaire = async (e: React.FormEvent) => {
-          e.preventDefault();
+     private retirerCommentaire = async (commentaire: CommentaireModel) => {
           const hide = { hide: 1 };
-          await this.api.putGetJson(`/commentaire/`, message.commentaireId, hide);
-          this.setState({ hide: 1 });
-     }
+          await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+     };
+
+
 
 }

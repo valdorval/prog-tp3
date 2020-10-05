@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { CommentaireModel, UtilisateurModel } from '../../../common/dist';
 
-interface Props extends RouteComponentProps<{ commentaireId: string }> { }
+interface Props extends RouteComponentProps<{ commentaireId: string; }> { }
 interface State {
      commentaire?: CommentaireModel;
      utilisateur?: UtilisateurModel[];
