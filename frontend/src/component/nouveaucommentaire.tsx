@@ -1,7 +1,8 @@
 import { Api } from 'api';
 import React from 'react';
+import { CommentaireModel, UtilisateurModel } from '../../../common/dist';
 
-interface Props { }
+interface Props { addCommentaire(commentaireModel: CommentaireModel, utilisateurModel: UtilisateurModel): void; }
 interface State {
      message: string;
      name?: string;
@@ -36,7 +37,8 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           const auteur = { name: this.state.name, courriel: this.state.courriel };
           const createAuteur = await this.api.postGetJson('/utilisateur', auteur);
           const commentaire = { message: this.state.message, date: date, utilisateurId: createAuteur.utilisateurId };
-          await this.api.postGetJson('/commentaire', commentaire);
+          const createCommentaire = await this.api.postGetJson('/commentaire', commentaire);
+          this.props.addCommentaire(createCommentaire, createAuteur);
           this.setState({ name: '', courriel: '', message: '' });
      };
 }
