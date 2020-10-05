@@ -51,7 +51,8 @@ export class Accueil extends React.Component<Props, State> {
 
      private editMessage = async (e: React.FormEvent) => {
           e.preventDefault();
-          const message = { message: this.state.message };
-          await this.api.putGetJson('/message/1', 1, message);
-     }
+          const message = { presentation: this.state.message?.presentation };
+          await this.api.putGetJson('/message', 1, message);
+     };
+
 }

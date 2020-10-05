@@ -2,6 +2,7 @@ import { Api } from 'api';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CommentaireModel, UtilisateurModel } from '../../../common';
+import { CacherCommentaire } from './cachercommentaire';
 import { NouveauCommentaire } from './nouveaucommentaire';
 
 interface Props { messageId: CommentaireModel; }
@@ -44,9 +45,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <form onSubmit={this.retirerCommentaire}>
-                                             <input type='submit' value='Retirer le message' />
-                                        </form>
+                                        <CacherCommentaire commentaire={message} />
                                    </div>
                               </div>
                               : ''}
@@ -65,14 +64,5 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
      }
-
-     private retirerCommentaire = async (e: React.FormEvent) => {
-          e.preventDefault();
-
-          this.props.messageId.hide = 1;
-          await this.api.putGetJson(`/commentaire/`, this.props.messageId.commentaireId, this.props.messageId);
-          // this.setState({ messages: this.state.messages!.filter(message => message !== retirerCommentaire) });
-     }
-
 
 }
