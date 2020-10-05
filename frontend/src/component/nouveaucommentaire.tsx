@@ -37,5 +37,6 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           const createAuteur = await this.api.postGetJson('/utilisateur', auteur);
           const commentaire = { message: this.state.message, date: date, utilisateurId: createAuteur.utilisateurId };
           await this.api.postGetJson('/commentaire', commentaire);
+          this.setState({ name: '', courriel: '', message: '' });
      };
 }

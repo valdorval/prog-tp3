@@ -31,6 +31,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
+
                {messages.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <>
