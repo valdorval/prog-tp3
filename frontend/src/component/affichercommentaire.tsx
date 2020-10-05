@@ -55,11 +55,13 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                               : ''}
                     </>;
                })}
-               <NouveauCommentaire addCommentaire={() => {
-                    // this.state.messages!.push(message);
-                    // this.state.utilisateurs!.push(utilisateur);
-                    this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
-                    // this.setState({ messages: this.state.messages!.filter(message => message = !message) });
+               <NouveauCommentaire addCommentaire={(message, utilisateur) => {
+                    this.state.messages!.push(message);
+                    this.state.utilisateurs!.push(utilisateur);
+
+                    // this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
+
+                    this.setState({ messages: this.state.messages!.filter(mess => mess !== mess), utilisateurs: this.state.utilisateurs!.filter(user => user !== user) });
                }} />
           </>;
      }
