@@ -8,7 +8,7 @@ interface Props { }
 interface State {
      messages?: CommentaireModel[];
      utilisateurs?: UtilisateurModel[];
-     hide?: number;
+     hide?: CommentaireModel;
 }
 
 export class AfficherCommentaire extends React.Component<Props, State> {
@@ -45,7 +45,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <form onSubmit={(this.retirerCommentaire)}>
+                                        <form onSubmit={(e) => this.retirerCommentaire(e, message)}>
                                              <input type='submit' value='Retirer le message' />
                                         </form>
                                    </div>
@@ -66,11 +66,11 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
      }
 
-     private retirerCommentaire = async (e: React.FormEvent) => {
+     private retirerCommentaire = async (e: React.FormEvent, message: CommentaireModel) => {
           e.preventDefault();
-          const hide = { hide: 1 };
-          await this.api.putGetJson(`/commentaire/`, message.commentaireId, hide);
-          this.setState({ hide: 1 });
+          const msg = { hide: 1 };
+          await this.api.putGetJson(`/commentaire/`, message.commentaireId, msg);
+          // this.setState({  });
      }
 
 }
