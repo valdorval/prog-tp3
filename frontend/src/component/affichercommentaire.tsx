@@ -2,13 +2,13 @@ import { Api } from 'api';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CommentaireModel, UtilisateurModel } from '../../../common';
-import { CacherCommentaire } from './cachercommentaire';
 import { NouveauCommentaire } from './nouveaucommentaire';
 
-interface Props { messageId: CommentaireModel; }
+interface Props { }
 interface State {
      messages?: CommentaireModel[];
      utilisateurs?: UtilisateurModel[];
+     hide?: number;
 }
 
 export class AfficherCommentaire extends React.Component<Props, State> {
@@ -45,7 +45,9 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <CacherCommentaire commentaire={message} />
+                                        <form onSubmit={this.retirerCommentaire}>
+                                             <input type='submit' value='Retirer le message' />
+                                        </form>
                                    </div>
                               </div>
                               : ''}
@@ -57,12 +59,18 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                     this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
                }} />
           </>;
-
      }
 
      private deleteCommentaire = async (commentaireToDelete: CommentaireModel) => {
           await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
+     }
+
+     private retirerCommentaire = async (e: React.FormEvent) => {
+          e.preventDefault();
+          const hide = { hide: 1 };
+          await this.api.putGetJson(`/commentaire/`, message.commentaireId, hide);
+          this.setState({ hide: 1 });
      }
 
 }
