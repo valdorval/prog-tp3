@@ -45,7 +45,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <form onSubmit={this.retirerCommentaire}>
+                                        <form onSubmit={(this.retirerCommentaire)}>
                                              <input type='submit' value='Retirer le message' />
                                         </form>
                                    </div>
