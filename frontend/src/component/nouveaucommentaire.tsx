@@ -6,7 +6,6 @@ interface Props { addCommentaire(commentaireModel: CommentaireModel): void; }
 interface State {
      message: string;
      name?: string;
-
 }
 
 
@@ -33,9 +32,10 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           e.preventDefault();
           const date = new Date();
           date.toLocaleString();
-          const commentaire = { name: this.state?.name, message: this.state.message, date: date };
+          const commentaire = { name: this.state.name, message: this.state.message, date: date }
           const createCommentaire = await this.api.postGetJson('/commentaire', commentaire);
-          this.props.addCommentaire(createCommentaire);
           this.setState({ name: '', message: '' });
-     };
+          this.props.addCommentaire(createCommentaire);
+     }
+
 }

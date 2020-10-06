@@ -51,7 +51,6 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-
                                         <div className='hide'>
                                              <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
                                         </div>
@@ -92,4 +91,5 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
           this.setState({ hide: 1 });
      };
+
 }
