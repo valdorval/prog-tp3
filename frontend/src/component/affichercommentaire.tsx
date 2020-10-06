@@ -37,14 +37,14 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
-               {this.state.messages!.map(message => {
+               {messages.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <>
                          {message.hide === 0 ?
                               <div key={message.commentaireId} className='content'>
                                    <div className='content-texte'>
                                         <div className={'texte'}>
-                                             <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
+                                             <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3></Link>
                                              <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                              <p>Commentaire: {message.message}</p>
                                         </div>
@@ -56,25 +56,12 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         </div>
                                    </div>
                               </div>
-                              :
-                              <div className='content'>
-                                   <div className='content-texte flex'>
-                                        <div className={'texte'} />
-
-                                        <div className='delete'>
-                                             <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
-                                        </div>
-
-                                        <div className='hide'>
-                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
-                                        </div>
-                                   </div>
-                              </div>
-                         }
-                    </>;
+                              : ''}
+                    </>
                })}
-               <NouveauCommentaire addCommentaire={(commentaire: CommentaireModel) => {
-                    messages.push(commentaire);
+
+               <NouveauCommentaire addCommentaire={(createCommentaire: CommentaireModel) => {
+                    messages.push(createCommentaire);
                     this.setState({ messages });
                }} />
           </>;
