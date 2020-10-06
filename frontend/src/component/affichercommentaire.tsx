@@ -53,10 +53,9 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                               : ''}
                     </>
                })}
-               <NouveauCommentaire addCommentaire={(message, utilisateur) => {
-                    this.state.messages!.push(message);
-                    this.state.utilisateurs!.push(utilisateur);
-                    this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
+               <NouveauCommentaire addCommentaire={(commentaire: CommentaireModel) => {
+                    messages.push(commentaire);
+                    this.setState({ messages });
                }} />
           </>;
      }
@@ -64,13 +63,13 @@ export class AfficherCommentaire extends React.Component<Props, State> {
      private deleteCommentaire = async (commentaireToDelete: CommentaireModel) => {
           await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
-     }
+     };
 
-     private retirerCommentaire = async (e: React.FormEvent, message: CommentaireModel) => {
-          e.preventDefault();
-          const msg = { hide: 1 };
-          await this.api.putGetJson(`/commentaire/`, message.commentaireId, msg);
-          // this.setState({  });
-     }
+     private retirerCommentaire = async (commentaire: CommentaireModel) => {
+          const hide = { hide: 1 };
+          await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          this.setState({ hide: 1 });
+     };
 
 }
