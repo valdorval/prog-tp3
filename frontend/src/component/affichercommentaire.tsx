@@ -62,6 +62,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                    <div className='content-texte flex'>
                                         <div className={'texte'} />
 
+                                        {/* troisieme bouton pour faire réaparaitre un commentaire */}
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
