@@ -31,7 +31,6 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
-
                {messages.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <>
@@ -39,7 +38,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                               <div key={message.commentaireId} className='content'>
                                    <div className='content-texte'>
                                         <div className={'texte'}>
-                                             <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name ? utilisateur.name : 'Anonyme'}</h3></Link>
+                                             <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
                                              <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                              <p>Commentaire: {message.message}</p>
                                         </div>
@@ -48,20 +47,34 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         </div>
 
                                         <div className='hide'>
-                                             <button onClick={() => this.retirerCommentaire(message)}> Retirer le commentaire </button>
+                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
                                         </div>
                                    </div>
                               </div>
-                              : ''}
+                              :
+                              <div className='content'>
+                                   <div className='content-texte flex'>
+                                        <div className={'texte'} />
+
+                                        <div className='delete'>
+                                             <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
+                                        </div>
+
+                                        <div className='hide'>
+                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                        </div>
+                                   </div>
+                              </div>
+                         }
                     </>;
                })}
-               <NouveauCommentaire addCommentaire={(message, utilisateur) => {
+               <NouveauCommentaire addCommentaire={(message) => {
                     this.state.messages!.push(message);
-                    this.state.utilisateurs!.push(utilisateur);
+                    // this.state.utilisateurs!.push(utilisateur);
 
                     // this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
 
-                    this.setState({ messages: this.state.messages!.filter(mess => mess !== mess), utilisateurs: this.state.utilisateurs!.filter(user => user !== user) });
+                    // this.setState({ messages: this.state.messages!.filter(mess => mess !== mess), utilisateurs: this.state.utilisateurs!.filter(user => user !== user) });
                }} />
           </>;
      }
@@ -74,7 +87,8 @@ export class AfficherCommentaire extends React.Component<Props, State> {
      private retirerCommentaire = async (commentaire: CommentaireModel) => {
           const hide = { hide: 1 };
           await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
-          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          // this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          this.setState({ hide: 1 });
      };
 
 
