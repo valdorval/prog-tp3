@@ -8,7 +8,7 @@ interface Props { }
 interface State {
      messages?: CommentaireModel[];
      utilisateurs?: UtilisateurModel[];
-     hide?: CommentaireModel;
+     hide?: number;
 }
 
 export class AfficherCommentaire extends React.Component<Props, State> {
@@ -45,9 +45,9 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
-                                        <form onSubmit={(e) => this.retirerCommentaire(e, message)}>
-                                             <input type='submit' value='Retirer le message' />
-                                        </form>
+                                        <div className='hide'>
+                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                        </div>
                                    </div>
                               </div>
                               : ''}

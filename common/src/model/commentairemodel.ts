@@ -1,5 +1,6 @@
 export class CommentaireModel {
     public commentaireId: number;
+    public name: string;
     public message: string;
     public date: Date;
     public utilisateurId: number;

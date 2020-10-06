@@ -7,9 +7,9 @@ export class CommentaireDAO {
 
     // Crée un commentaire
     public async createCommentaire(commentaire: CommentaireModel) {
-        const { message, date, utilisateurId } = commentaire;
+        const { message, date, utilisateurId, name } = commentaire;
         const [commentaireId] = await this.knex('commentaire').insert({
-            message, date, utilisateurId
+            message, date, utilisateurId, name
         });
         return commentaireId;
     }
@@ -29,8 +29,8 @@ export class CommentaireDAO {
 
     // Modifie un commentaire
     public async updateCommentaire(commentaire: CommentaireModel) {
-        const { commentaireId, message, date } = commentaire;
-        await this.knex('commentaire').update({ message, date }).where({ commentaireId });
+        const { commentaireId, message, date, hide } = commentaire;
+        await this.knex('commentaire').update({ message, date, hide }).where({ commentaireId });
     }
 
     // Supprime un commentaire
