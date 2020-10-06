@@ -26,12 +26,6 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           this.setState({ messages, utilisateurs });
      }
 
-     public async componentDidUpdate(prevProps: any, prevState: any) {
-          if (prevState.messages !== this.state.messages) {
-               console.log('pokemons state has changed.');
-          }
-     }
-
      public render() {
           const { messages, utilisateurs } = this.state;
           if (!messages || !utilisateurs) { return 'Chargement...'; }
@@ -76,7 +70,8 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                     </>;
                })}
                <NouveauCommentaire addCommentaire={(message) => {
-                    this.setState({ messages: this.state.messages!.filter(mess => mess !== message) });
+                    this.state.messages?.push(message);
+                    this.setState({ messages: this.state.messages });
                }} />
           </>;
      }

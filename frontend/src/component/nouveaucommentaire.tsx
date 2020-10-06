@@ -33,7 +33,8 @@ export class NouveauCommentaire extends React.Component<Props, State> {
           date.toLocaleString();
           const commentaire = { name: this.state?.name, message: this.state.message, date: date };
           const createCommentaire = await this.api.postGetJson('/commentaire', commentaire);
-          this.props.addCommentaire(createCommentaire);
+          const addComm = CommentaireModel.fromJSON(createCommentaire);
+          this.props.addCommentaire(addComm);
           this.setState({ name: '', message: '' });
      };
 }
