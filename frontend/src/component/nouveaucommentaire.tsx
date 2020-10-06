@@ -6,9 +6,7 @@ interface Props { addCommentaire(commentaireModel: CommentaireModel): void; }
 interface State {
      message: string;
      name?: string;
-
 }
-
 
 export class NouveauCommentaire extends React.Component<Props, State> {
      private api = new Api;

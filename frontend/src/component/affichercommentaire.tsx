@@ -74,8 +74,8 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                          }
                     </>;
                })}
-               <NouveauCommentaire addCommentaire={(commentaire: CommentaireModel) => {
-                    this.setState({ messages: this.state.messages!.filter(mess => mess !== commentaire) });
+               <NouveauCommentaire addCommentaire={(message) => {
+                    this.setState({ messages: this.state.messages!.filter(mess => mess !== message) });
                }} />
           </>;
      }
