@@ -57,6 +57,10 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                         <div className={'texte'} />
 
                                         {/* troisieme bouton pour faire réaparaitre un commentaire */}
+                                        <div className='retablir'>
+                                             <img src='/img/hide.png' alt='retablir' onClick={() => this.restoreCommentaire(message)} />x
+                                        </div>
+
                                         <div className='delete'>
                                              <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                         </div>
@@ -84,7 +88,14 @@ export class AfficherCommentaire extends React.Component<Props, State> {
      private retirerCommentaire = async (commentaire: CommentaireModel) => {
           const hide = { hide: 1 };
           await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
-          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
           this.setState({ hide: 1 });
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+     };
+
+     private restoreCommentaire = async (commentaire: CommentaireModel) => {
+          const hide = { hide: 0 };
+          await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
+          this.setState({ hide: 0 });
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
      };
 }
