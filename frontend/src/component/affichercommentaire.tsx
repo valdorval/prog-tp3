@@ -26,12 +26,18 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           this.setState({ messages, utilisateurs });
      }
 
+     public async componentDidUpdate(prevProps: any, prevState: any) {
+          if (prevState.messages !== this.state.messages) {
+               console.log('pokemons state has changed.');
+          }
+     }
+
      public render() {
           const { messages, utilisateurs } = this.state;
           if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
-               {messages.map(message => {
+               {this.state.messages!.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <>
                          {message.hide === 0 ?
@@ -68,13 +74,8 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                          }
                     </>;
                })}
-               <NouveauCommentaire addCommentaire={(message) => {
-                    this.state.messages!.push(message);
-                    // this.state.utilisateurs!.push(utilisateur);
-
-                    // this.setState({ messages: this.state.messages, utilisateurs: this.state.utilisateurs });
-
-                    // this.setState({ messages: this.state.messages!.filter(mess => mess !== mess), utilisateurs: this.state.utilisateurs!.filter(user => user !== user) });
+               <NouveauCommentaire addCommentaire={(commentaire: CommentaireModel) => {
+                    this.setState({ messages: this.state.messages!.filter(mess => mess !== commentaire) });
                }} />
           </>;
      }
@@ -87,10 +88,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
      private retirerCommentaire = async (commentaire: CommentaireModel) => {
           const hide = { hide: 1 };
           await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
-          // this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
           this.setState({ hide: 1 });
      };
-
-
-
 }

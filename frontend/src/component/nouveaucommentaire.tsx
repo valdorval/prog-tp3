@@ -6,6 +6,7 @@ interface Props { addCommentaire(commentaireModel: CommentaireModel): void; }
 interface State {
      message: string;
      name?: string;
+
 }
 
 
@@ -19,6 +20,7 @@ export class NouveauCommentaire extends React.Component<Props, State> {
 
      public render() {
           return <>
+               <h2 style={{ textAlign: 'center' }}>Dites-nous ce que vous en pensez</h2>
                <form onSubmit={this.newCommentaire} className='center'>
                     <div><input type='text' placeholder='Votre nom' value={this.state.name ?? ''} onChange={e => this.setState({ name: e.target.value })} /></div>
                     <div><textarea maxLength={500} placeholder='Votre commentaire' required={true} value={this.state.message ?? ''} onChange={e => this.setState({ message: e.target.value })} /></div>
