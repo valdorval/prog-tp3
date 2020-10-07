@@ -31,7 +31,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
           if (!messages || !utilisateurs) { return 'Chargement...'; }
 
           return <>
-               {this.state.messages!.map(message => {
+               {messages!.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
                     return <>
                          {message.hide === 0 ?
@@ -42,31 +42,41 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                                              <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                              <p>Commentaire: {message.message}</p>
                                         </div>
-                                        <div className='delete'>
-                                             <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
-                                        </div>
+                                        <div className='container-button'>
+                                             <div className='retablir'>
+                                                  restorer<img src='/img/hide.png' alt='retablir' onClick={() => this.restoreCommentaire(message)} />
+                                             </div>
 
-                                        <div className='hide'>
-                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                             <div className='delete'>
+                                                  <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
+                                             </div>
+                                             <div className='hide'>
+                                                  <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                             </div>
                                         </div>
                                    </div>
                               </div>
                               :
                               <div className='content'>
-                                   <div className='content-texte flex'>
-                                        <div className={'texte'} />
-
-                                        {/* troisieme bouton pour faire réaparaitre un commentaire */}
-                                        <div className='retablir'>
-                                             <img src='/img/hide.png' alt='retablir' onClick={() => this.restoreCommentaire(message)} />x
+                                   <div className='content-texte'>
+                                        <div className={'texte'}>
+                                             <p>Ce commentaire est caché des autre utilisateur</p>
+                                             <Link to={`/avis/${message.commentaireId}`}><h3 className={message.hide === 1 ? 'hide-comment' : ''}>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
+                                             <p className={message.hide === 1 ? 'hide-comment' : ''}>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                             <p className={message.hide === 1 ? 'hide-comment' : ''}>Commentaire: {message.message}</p>
                                         </div>
+                                        <div className='container-button'>
+                                             <div className='retablir'>
+                                                  <img src='/img/hide.png' alt='retablir' onClick={() => this.restoreCommentaire(message)} />x
+                                             </div>
 
-                                        <div className='delete'>
-                                             <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
-                                        </div>
+                                             <div className='delete'>
+                                                  <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
+                                             </div>
 
-                                        <div className='hide'>
-                                             <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                             <div className='hide'>
+                                                  <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                             </div>
                                         </div>
                                    </div>
                               </div>
@@ -74,28 +84,28 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                     </>;
                })}
                <NouveauCommentaire addCommentaire={(message) => {
-                    this.state.messages?.push(message);
+                    this.state.messages!.push(message);
                     this.setState({ messages: this.state.messages });
                }} />
           </>;
      }
 
      private deleteCommentaire = async (commentaireToDelete: CommentaireModel) => {
-          await this.api.delete(`/commentaire/`, commentaireToDelete.commentaireId);
+          await this.api.delete(`/commentaire`, commentaireToDelete.commentaireId);
           this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToDelete) });
      };
 
-     private retirerCommentaire = async (commentaire: CommentaireModel) => {
+     private retirerCommentaire = async (commentaireToHide: CommentaireModel) => {
           const hide = { hide: 1 };
-          await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
-          this.setState({ hide: 1 });
-          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          await this.api.putGetJson(`/commentaire`, commentaireToHide.commentaireId, hide);
+          // this.setState({ hide: 1 });
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToHide) });
      };
 
-     private restoreCommentaire = async (commentaire: CommentaireModel) => {
+     private restoreCommentaire = async (commentaireToRestore: CommentaireModel) => {
           const hide = { hide: 0 };
-          await this.api.putGetJson(`/commentaire`, commentaire.commentaireId, hide);
-          this.setState({ hide: 0 });
-          this.setState({ messages: this.state.messages!.filter(message => message !== commentaire) });
+          await this.api.putGetJson(`/commentaire`, commentaireToRestore.commentaireId, hide);
+          // this.setState({ hide: 0 });
+          this.setState({ messages: this.state.messages!.filter(message => message !== commentaireToRestore) });
      };
 }

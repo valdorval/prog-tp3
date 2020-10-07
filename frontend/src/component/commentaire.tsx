@@ -31,7 +31,7 @@ export class Commentaire extends React.Component<Props, State> {
 
           return <>
                <div>
-                    <p>Nom: {user?.name ? user.name : 'Anonyme'}</p>
+                    <p>Nom: {user?.name || commentaire.name ? commentaire.name || user?.name : 'Anonyme'}</p>
                     <p>Date: {this.state.commentaire?.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <p>Commentaire: {this.state.commentaire?.message}</p>
                </div>
