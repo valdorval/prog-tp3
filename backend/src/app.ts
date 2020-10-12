@@ -25,7 +25,7 @@ app.set('trust proxy', 'loopback');
 
 app.use(session({
     name: 'archetype_session',
-    secret: '',
+    secret: 'allo',
     store: sessionStore,
     resave: false,
     saveUninitialized: false
