@@ -6,7 +6,7 @@ import MySQLStore from 'express-mysql-session';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { config } from './config';
+import { configSession } from './config';
 import { AuthDAO } from './dao/authdao';
 import { allusersRouter } from './router/allusersrouter';
 import { authRouter, loginHandler } from './router/authRouter';
@@ -16,10 +16,10 @@ import { messageRouter } from './router/messagerouter';
 const authDAO = new AuthDAO;
 
 const sessionStore = new (MySQLStore(session as any))({
-    host: config.database.url,
-    user: config.database.username,
-    password: config.database.password,
-    database: config.database.database + '_session'
+    host: configSession.database.url,
+    user: configSession.database.username,
+    password: configSession.database.password,
+    database: configSession.database.database
 });
 
 const app = express();
@@ -28,7 +28,7 @@ app.set('trust proxy', 'loopback');
 
 app.use(session({
     name: 'archetype_session',
-    secret: 'allo',
+    secret: '9b74c9897bac770ffc029102a200c5de',
     store: sessionStore,
     resave: false,
     saveUninitialized: false
@@ -48,8 +48,8 @@ app.use((_req, res, next) => {
     next();
 });
 
-passport.serializeUser((utilisateur: UtilisateurModel, done) => {
-    done(null, utilisateur.utilisateurId);
+passport.serializeUser((user: UtilisateurModel, done) => {
+    done(null, user.utilisateurId);
 });
 
 passport.deserializeUser(async (utilisateurId: number, done) => {

@@ -32,14 +32,14 @@ authRouter.get('/user', wrap(async (req, res) => {
 }));
 
 const loginHandler = async (username: string, password: string, done: (error: any, user?: any) => void) => {
-    const utilisateur = await authDAO.getUtilisateur(username);
+    const user = await authDAO.getUtilisateur(username);
 
-    if (utilisateur === undefined) {
+    if (user === undefined) {
         return done(null, false);
     }
-    if (await bcrypt.compare(password, utilisateur.password!)) {
-        delete utilisateur.password;
-        return done(null, utilisateur);
+    if (await bcrypt.compare(password, user.password!)) {
+        delete user.password;
+        return done(null, user);
     }
     return done(null, false);
 };

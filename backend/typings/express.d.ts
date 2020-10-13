@@ -1,4 +1,3 @@
-import { MessageChannel } from "worker_threads";
 import { CommentaireModel, MessageModel, UtilisateurModel } from "../../common";
 
 declare global {
@@ -8,5 +7,6 @@ declare global {
             utilisateur: UtilisateurModel;
             message: MessageModel;
         }
+        interface User extends UtilisateurModel { }
     }
 }
