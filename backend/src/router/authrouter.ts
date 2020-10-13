@@ -37,6 +37,7 @@ const loginHandler = async (username: string, password: string, done: (error: an
     if (user === undefined) {
         return done(null, false);
     }
+    console.log(await bcrypt.hash('123456', 10));
     if (await bcrypt.compare(password, user.password!)) {
         delete user.password;
         return done(null, user);
