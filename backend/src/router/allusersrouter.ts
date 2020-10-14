@@ -1,4 +1,4 @@
-import { UtilisateurModel } from '../../../common';
+import { UtilisateurModel } from 'common';
 import { Router } from 'express';
 import { AllusersDAO } from '../dao/allusersdao';
 import { wrap } from '../util';

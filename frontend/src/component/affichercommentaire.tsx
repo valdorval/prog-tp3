@@ -60,7 +60,7 @@ export class AfficherCommentaire extends React.Component<Props, State> {
                               <div className='content'>
                                    <div className='content-texte'>
                                         <div className={'texte'}>
-                                             <p>Ce commentaire est caché des autre utilisateur</p>
+                                             <p>Ce commentaire est caché des autres utilisateurs</p>
                                              <Link to={`/avis/${message.commentaireId}`}><h3 className={message.hide === 1 ? 'hide-comment' : ''}>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
                                              <p className={message.hide === 1 ? 'hide-comment' : ''}>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                              <p className={message.hide === 1 ? 'hide-comment' : ''}>Commentaire: {message.message}</p>

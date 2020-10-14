@@ -19,7 +19,7 @@ authRouter.get('/login', passport.authenticate('local', { session: true }), (req
 authRouter.get('/logout', wrap(async (req, res) => {
     if (!req.session) { return res.send(); }
     req.session.destroy(err => {
-        if (err != undefined) {
+        if (err !== undefined) {
             console.error(`Error destroying session, ${err}`);
         }
     });
@@ -32,15 +32,16 @@ authRouter.get('/user', wrap(async (req, res) => {
 }));
 
 const loginHandler = async (username: string, password: string, done: (error: any, user?: any) => void) => {
-    const user = await authDAO.getUtilisateur(username);
+    const utilisateur = await authDAO.getUtilisateur(username);
 
-    if (user === undefined) {
+    if (utilisateur === undefined) {
         return done(null, false);
     }
-    console.log(await bcrypt.hash('123456', 10));
-    if (await bcrypt.compare(password, user.password!)) {
-        delete user.password;
-        return done(null, user);
+    // hash manuel pour test
+    // console.log(await bcrypt.hash('123456', 10));
+    if (await bcrypt.compare(password, utilisateur.password!)) {
+        delete utilisateur.password;
+        return done(null, utilisateur);
     }
     return done(null, false);
 };

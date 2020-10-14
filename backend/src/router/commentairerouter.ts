@@ -1,8 +1,9 @@
-import { CommentaireModel } from 'common';
-import { Router } from 'express';
+import { CommentaireModel, Permission } from 'common';
+import { NextFunction, Request, Response, Router } from 'express';
 import { CommentaireDAO } from '../dao/commentairedao';
 import { wrap } from '../util';
 import { utilisateurRouter } from './utilisateurrouter';
+
 
 const commentaireRouter = Router();
 const commentaireDAO = new CommentaireDAO;
@@ -34,7 +35,7 @@ commentaireRouter.post('/', wrap(async (req, res) => {
 }));
 
 // Modifie un commentaire
-commentaireRouter.put('/:commentaireId', wrap(async (req, res) => {
+commentaireRouter.put('/:commentaireId', hasPermission(Permission.cacherCommentaire), wrap(async (req, res) => {
     const updated = CommentaireModel.fromJSON(req.body);
     updated.commentaireId = req.commentaire.commentaireId;
     await commentaireDAO.updateCommentaire(updated);
@@ -42,7 +43,7 @@ commentaireRouter.put('/:commentaireId', wrap(async (req, res) => {
 }));
 
 // Supprime un commentaire
-commentaireRouter.delete('/:commentaireId', wrap(async (req, res) => {
+commentaireRouter.delete('/:commentaireId', hasPermission(Permission.deleteCommentaire), wrap(async (req, res) => {
     await commentaireDAO.deleteCommentaire(req.commentaire.commentaireId);
     return res.sendStatus(204);
 }));
@@ -50,3 +51,12 @@ commentaireRouter.delete('/:commentaireId', wrap(async (req, res) => {
 commentaireRouter.use('/:commentaireId/utilisateur', utilisateurRouter);
 
 export { commentaireRouter };
+
+export function hasPermission(permission: Permission) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        if (!req.user?.hasPermission(permission)) {
+            return res.sendStatus(403);
+        }
+        return next();
+    };
+}

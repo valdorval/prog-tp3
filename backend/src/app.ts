@@ -48,14 +48,14 @@ app.use((_req, res, next) => {
     next();
 });
 
-passport.serializeUser((user: UtilisateurModel, done) => {
-    done(null, user.utilisateurId);
+passport.serializeUser((utilisateur: UtilisateurModel, done) => {
+    done(null, utilisateur.utilisateurId);
 });
 
 passport.deserializeUser(async (utilisateurId: number, done) => {
-    const user = await authDAO.getUtilisateurById(utilisateurId);
-    delete user!.password;
-    done(null, user);
+    const utilisateur = await authDAO.getUtilisateurById(utilisateurId);
+    delete utilisateur!.password;
+    done(null, utilisateur ? UtilisateurModel.fromJSON(utilisateur) : undefined);
 });
 
 passport.use(new Strategy(loginHandler));

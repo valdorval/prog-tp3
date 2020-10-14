@@ -1,4 +1,4 @@
-import { UtilisateurModel } from '../../../common';
+import { UtilisateurModel } from 'common';
 import { DBProvider } from '../dbprovider';
 
 export class AllusersDAO {
