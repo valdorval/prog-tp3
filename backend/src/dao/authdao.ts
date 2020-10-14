@@ -11,6 +11,12 @@ export class AuthDAO {
         return utilisateur;
     }
 
+    public async getUtilisateurs() {
+        const users: UtilisateurModel[] = await this.knex('utilisateur').select('utilisateurId', 'username');
+        await Promise.all(users.map(this.hydrate));
+        return users;
+    }
+
     public async getUtilisateurById(utilisateurId: number) {
         const utilisateur: UtilisateurModel | undefined = await this.knex('utilisateur').first('utilisateurId', 'username', 'password').where({ utilisateurId });
         if (!utilisateur) { return utilisateur; }
@@ -32,21 +38,14 @@ export class AuthDAO {
         }
     }
 
-    //create user côté manage user
-    public async getUtilisateurs() {
-        const users: UtilisateurModel[] = await this.knex('utilisateur').select('utilisateurId', 'username');
-        await Promise.all(users.map(this.hydrate));
-        return users;
-    }
-
     public async createManageUser(user: UtilisateurModel) {
         const { username, password, roles } = user;
         try {
-            const userId: number = await this.knex('utilisateur').insert({ username, password });
+            const utilisateurId: number = await this.knex('utilisateur').insert({ username, password });
             if (roles.length > 0) {
-                await this.knex('role').insert(roles.map(role => { return { userId, role }; }));
+                await this.knex('role').insert(roles.map(role => { return { utilisateurId, role }; }));
             }
-            return userId;
+            return utilisateurId;
         } catch (e) {
             if (e.code !== 'ER_DUP_ENTRY') {
                 console.log('Error trying to create duplicate user.', e);
@@ -57,7 +56,6 @@ export class AuthDAO {
 
     public async updateUtilisateur(utilisateur: UtilisateurModel) {
         const { username, password, utilisateurId, roles } = utilisateur;
-
         if (password) {
             await this.knex('utilisateur').update({ username, password }).where({ utilisateurId });
         } else {
@@ -69,10 +67,10 @@ export class AuthDAO {
         }
     }
 
-    private async hydrate(utilisateur: UtilisateurModel) {
+    private hydrate = async (utilisateur: UtilisateurModel) => {
         const utilisateurId = utilisateur.utilisateurId;
         const roles: Role[] = await this.knex('role').pluck('role').where({ utilisateurId });
         utilisateur.roles = roles;
         return utilisateur;
-    }
+    };
 }
