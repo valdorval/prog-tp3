@@ -19,23 +19,19 @@ export class RegisterForm extends React.Component<Props, State> {
 
     public render() {
         if (this.context.user === undefined) { return null; }
-        return <div>
-            <form onSubmit={this.register} >
-                <h3>Inscription</h3>
-                <label>Username:</label>
-                <input type='text' required={true} value={this.state.username ?? ''} onChange={e => {
+        return <div className='container-form'>
+            <form onSubmit={this.register} className='form-register'>
+                <h2>Inscription</h2>
+                <input type='text' placeholder='Username' required={true} value={this.state.username ?? ''} onChange={e => {
                     this.setState({ username: e.target.value });
-                }} /><br />
-                <label>Password:</label>
-                <input type='password' required={true} value={this.state.password ?? ''} onChange={e => {
+                }} />
+                <input type='password' placeholder='Password' required={true} value={this.state.password ?? ''} onChange={e => {
                     this.setState({ password: e.target.value });
-                }} /><br />
-                <label>Votre nom:</label>
-                <input type='text' required={true} value={this.state.name ?? ''} onChange={e => {
+                }} />
+                <input type='text' placeholder='Votre nom' required={true} value={this.state.name ?? ''} onChange={e => {
                     this.setState({ name: e.target.value });
-                }} /><br />
-                <label>Courriel:</label>
-                <input type='email' required={true} value={this.state.courriel ?? ''} onChange={e => {
+                }} />
+                <input type='email' placeholder='Votre email' required={true} value={this.state.courriel ?? ''} onChange={e => {
                     this.setState({ courriel: e.target.value });
                 }} />
                 <input type='submit' value="S'enregistrer" />

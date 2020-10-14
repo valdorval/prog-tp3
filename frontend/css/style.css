@@ -108,3 +108,29 @@ button {
      opacity: 50%;
      color: grey;
 }
+
+.form-login{
+     margin: 100px 0;
+}
+
+.form-register{
+     margin-bottom: 100px;
+}
+
+.form-login, .form-register, .form-login input, .form-register input{
+     width: 100%;
+}
+
+.form-login input[type=submit], .form-register input[type=submit]{
+     width: 50%;
+}
+
+.container-form{
+     width: 25%;
+     margin: auto;
+}
+
+.form-login h2, .form-register h2{
+     margin-bottom: 10px;
+     text-align: center;
+}

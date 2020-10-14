@@ -20,15 +20,13 @@ export class LoginForm extends React.Component<Props, State> {
 
     public render() {
         if (this.context.user === undefined) { return null; }
-        return <div>
-            <form onSubmit={this.login} >
-                <h3>Se connecter</h3>
-                <label>Username:</label>
-                <input type='text' required={true} value={this.state.username ?? ''} onChange={e => {
+        return <div className='container-form'>
+            <form onSubmit={this.login} className='form-login' >
+                <h2>Se connecter</h2>
+                <input type='text' placeholder='Username' required={true} value={this.state.username ?? ''} onChange={e => {
                     this.setState({ username: e.target.value });
-                }} /><br />
-                <label>Password:</label>
-                <input type='password' required={true} value={this.state.password ?? ''} onChange={e => {
+                }} />
+                <input type='password' placeholder='Password' required={true} value={this.state.password ?? ''} onChange={e => {
                     this.setState({ password: e.target.value });
                 }} />
                 <input type='submit' value='Se connecter' />

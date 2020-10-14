@@ -16,7 +16,7 @@ export class Router extends React.Component<{}> {
                {this.context.user && <LogoutButton />}
                <Route path='/avis/:commentaireId' exact={true} component={Commentaire} />
                <Route path='/avis' exact={true}> <Avis /> </Route>
-               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />} {this.context.user ? '' : <RegisterForm />}  </Route>
+               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />} {this.context.user ? '' : <RegisterForm />}</Route>
           </ BrowserRouter>;
      }
 }
