@@ -31,7 +31,7 @@ export class UserContextComponent extends React.Component<{}, UserContext> {
 
     public reloadUser = async () => {
         try {
-            const user = UtilisateurModel.fromJSON(await this.api.getJson('/auth/user'));
+            const user = UtilisateurModel.fromJSON(await this.api.getJson('/auth/manage/current'));
             this.setState({ user });
             return user;
         } catch {

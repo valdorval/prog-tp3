@@ -37,16 +37,13 @@ authRouter.post('/user', wrap(async (req, res) => {
     return res.send(createdUser);
 }));
 
-
 //-----------------------------------------------------------------
 // ------------ manage user permissions and account ---------------
 //-----------------------------------------------------------------
-
-// obtenir tout les utilisateurs
 authRouter.get('/manage', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
     if (!req.user) { return res.sendStatus(403); }
     const users = await authDAO.getUtilisateurs();
-    return res.send(req.users);
+    return res.send(users);
 }));
 
 authRouter.get('/manage/current', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
@@ -57,7 +54,7 @@ authRouter.get('/manage/current', hasPermission(Permission.manageUsers), wrap(as
 authRouter.post('/manage', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
     const user = req.body;
     user.password = await bcrypt.hash(user.password, 12);
-    const createdUserId = await authDAO.createUtilisateur(user);
+    const createdUserId = await authDAO.createManageUser(user);
     if (createdUserId === null) { return res.sendStatus(400); }
     const createdUser = (await authDAO.getUtilisateurById(createdUserId))!;
     delete createdUser.password;
@@ -71,7 +68,7 @@ authRouter.put('/manage/:utilisateurId', hasPermission(Permission.manageUsers), 
         user.password = await bcrypt.hash(user.password, 12);
     }
 
-    await authDAO.updateUser(user);
+    await authDAO.updateUtilisateur(user);
 
     const updateUser = (await authDAO.getUtilisateurById(user.utilisateurId))!;
     delete updateUser.password;

@@ -18,6 +18,7 @@ export class AuthDAO {
         return utilisateur;
     }
 
+    //create normal user
     public async createUtilisateur(user: UtilisateurModel) {
         const { username, password, name, courriel } = user;
         try {
@@ -28,6 +29,43 @@ export class AuthDAO {
                 console.log('Error trying to create duplicate user.', e);
             }
             return null;
+        }
+    }
+
+    //create user côté manage user
+    public async getUtilisateurs() {
+        const users: UtilisateurModel[] = await this.knex('utilisateur').select('utilisateurId', 'username');
+        await Promise.all(users.map(this.hydrate));
+        return users;
+    }
+
+    public async createManageUser(user: UtilisateurModel) {
+        const { username, password, roles } = user;
+        try {
+            const userId: number = await this.knex('utilisateur').insert({ username, password });
+            if (roles.length > 0) {
+                await this.knex('role').insert(roles.map(role => { return { userId, role }; }));
+            }
+            return userId;
+        } catch (e) {
+            if (e.code !== 'ER_DUP_ENTRY') {
+                console.log('Error trying to create duplicate user.', e);
+            }
+            return null;
+        }
+    }
+
+    public async updateUtilisateur(utilisateur: UtilisateurModel) {
+        const { username, password, utilisateurId, roles } = utilisateur;
+
+        if (password) {
+            await this.knex('utilisateur').update({ username, password }).where({ utilisateurId });
+        } else {
+            await this.knex('utilisateur').update({ username }).where({ utilisateurId });
+        }
+        await this.knex('role').delete().where({ utilisateurId });
+        if (roles.length) {
+            await this.knex('role').insert(roles.map(role => { return { role, utilisateurId }; }));
         }
     }
 

@@ -1,7 +1,8 @@
 import { Api } from 'api';
-import { roleList, UtilisateurModel } from 'common';
+import { Permission, roleList, UtilisateurModel } from 'common';
 import { UserContext } from 'context/usercontext';
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 
 interface Props { }
@@ -18,19 +19,22 @@ export class ManageUsers extends React.Component<Props, State> {
     }
 
     public async componentDidMount() {
-        const users = (await this.api.getJson('auth/manage') as any[]).map(UtilisateurModel.fromJSON);
+        const users = (await this.api.getJson('/auth/manage') as any[]).map(UtilisateurModel.fromJSON);
         this.setState({ users });
     }
 
     public render() {
         const { users, user } = this.state;
-        return <div>
-
+        if (!this.context.user?.hasPermission(Permission.manageUsers)) {
+            return <Redirect to='/' exact={true} />;
+        }
+        return <div className='container'>
+            <h2>Administration</h2>
             <div>
-                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                <select onChange={(e => {
                     const userToEdit = users.find(u => u.utilisateurId === parseInt(e.currentTarget.value));
                     this.setState({ user: userToEdit ?? new UtilisateurModel });
-                }}>
+                })}>
                     <option>Nouveau</option>
                     {users.map(u => <option value={u.utilisateurId} key={u.utilisateurId}>{u.username}</option>)}
                 </select>
@@ -49,9 +53,9 @@ export class ManageUsers extends React.Component<Props, State> {
                         }} />
                     </div>
 
-                    <div>
-                        {roleList.map(role => <label key={role}>{role}
-                            <input type='checkbox' checked={user.roles.includes(role) ?? false} onChange={() => {
+                    <div className='flex'>
+                        {roleList.map(role => <label className='label-roles' key={role}>{role}
+                            <input type='checkbox' checked={user.roles.includes(role)} onChange={() => {
                                 if (user.roles.includes(role)) {
                                     user.roles = user.roles.filter(currentRole => currentRole !== role);
                                 } else {
@@ -60,7 +64,7 @@ export class ManageUsers extends React.Component<Props, State> {
                                 this.setState({ user });
                             }} /></label>)}
                     </div>
-                    <button type='submit'>Enregistrer</button>
+                    <button type='submit'>{user.utilisateurId ? 'Enregistrer' : 'Créer'} </button>
                 </form>
             </div>
         </div>;
@@ -68,17 +72,17 @@ export class ManageUsers extends React.Component<Props, State> {
 
     private saveOrCreate = async (e: React.FormEvent) => {
         e.preventDefault();
-        const user = this.state.user!;
+        const user = this.state.user;
         let newUser: UtilisateurModel | undefined = undefined;
 
         if (user.utilisateurId) {
-            newUser = UtilisateurModel.fromJSON(await this.api.putGetJson('auth/manage', user.utilisateurId, user));
+            newUser = UtilisateurModel.fromJSON(await this.api.putGetJson('/auth/manage', user.utilisateurId, user));
             alert('Utilisateur modifié');
         } else {
-            newUser = UtilisateurModel.fromJSON(await this.api.postGetJson('auth/manage', user));
+            newUser = UtilisateurModel.fromJSON(await this.api.postGetJson('/auth/manage', user));
             alert('Utilisateur créé');
         }
-        const users = (await this.api.getJson('auth/manage')).map(UtilisateurModel.fromJSON);
+        const users = (await this.api.getJson('/auth/manage')).map(UtilisateurModel.fromJSON);
         this.setState({ users, user: newUser });
     };
 

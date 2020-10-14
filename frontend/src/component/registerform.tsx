@@ -27,10 +27,10 @@ export class RegisterForm extends React.Component<Props, State> {
                 <input type='password' placeholder='Password' required={true} value={this.state.password ?? ''} onChange={e => {
                     this.setState({ password: e.target.value });
                 }} />
-                <input type='text' placeholder='Votre nom' required={true} value={this.state.name ?? ''} onChange={e => {
+                <input type='text' placeholder='Votre nom' value={this.state.name ?? ''} onChange={e => {
                     this.setState({ name: e.target.value });
                 }} />
-                <input type='email' placeholder='Votre email' required={true} value={this.state.courriel ?? ''} onChange={e => {
+                <input type='email' placeholder='Votre email' value={this.state.courriel ?? ''} onChange={e => {
                     this.setState({ courriel: e.target.value });
                 }} />
                 <input type='submit' value="S'enregistrer" />
