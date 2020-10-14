@@ -7,7 +7,6 @@ import { wrap } from '../util';
 const authRouter = Router();
 const authDAO = new AuthDAO;
 
-// probs here
 authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
     if (req.user) {
         res.send(req.user);
@@ -24,6 +23,16 @@ authRouter.post('/logout', wrap(async (req, res) => {
         }
     });
     return res.send();
+}));
+
+authRouter.post('/user', wrap(async (req, res) => {
+    const user = req.body;
+    user.password = await bcrypt.hash(user.password, 12);
+    const createdUserId = await authDAO.createUtilisateur(user);
+    if (createdUserId === null) { return res.sendStatus(400); }
+    const createdUser = (await authDAO.getUtilisateurById(createdUserId))!;
+    delete createdUser.password;
+    return res.send(createdUser);
 }));
 
 authRouter.get('/user', wrap(async (req, res) => {

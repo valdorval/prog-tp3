@@ -6,6 +6,7 @@ import { Avis } from './avis';
 import { Commentaire } from './commentaire';
 import { LoginForm } from './loginform';
 import { LogoutButton } from './logoutbutton';
+import { RegisterForm } from './registerform';
 
 export class Router extends React.Component<{}> {
      public static contextType = UserContext;
@@ -15,7 +16,7 @@ export class Router extends React.Component<{}> {
                {this.context.user && <LogoutButton />}
                <Route path='/avis/:commentaireId' exact={true} component={Commentaire} />
                <Route path='/avis' exact={true}> <Avis /> </Route>
-               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />} </Route>
+               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />} {this.context.user ? '' : <RegisterForm />}  </Route>
           </ BrowserRouter>;
      }
 }

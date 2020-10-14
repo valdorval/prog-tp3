@@ -18,6 +18,19 @@ export class AuthDAO {
         return utilisateur;
     }
 
+    public async createUtilisateur(user: UtilisateurModel) {
+        const { username, password, name, courriel } = user;
+        try {
+            const createUtilisateurId: number = await this.knex('utilisateur').insert({ username, password, name, courriel });
+            return createUtilisateurId;
+        } catch (e) {
+            if (e.code !== 'ER_DUP_ENTRY') {
+                console.log('Error trying to create duplicate user.', e);
+            }
+            return null;
+        }
+    }
+
     private async hydrate(utilisateur: UtilisateurModel) {
         const utilisateurId = utilisateur.utilisateurId;
         const roles: Role[] = await this.knex('role').pluck('role').where({ utilisateurId });

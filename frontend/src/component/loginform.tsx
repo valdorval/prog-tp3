@@ -22,6 +22,7 @@ export class LoginForm extends React.Component<Props, State> {
         if (this.context.user === undefined) { return null; }
         return <div>
             <form onSubmit={this.login} >
+                <h3>Se connecter</h3>
                 <label>Username:</label>
                 <input type='text' required={true} value={this.state.username ?? ''} onChange={e => {
                     this.setState({ username: e.target.value });
@@ -30,7 +31,7 @@ export class LoginForm extends React.Component<Props, State> {
                 <input type='password' required={true} value={this.state.password ?? ''} onChange={e => {
                     this.setState({ password: e.target.value });
                 }} />
-                <input type='submit' />
+                <input type='submit' value='Se connecter' />
             </form>
         </div>;
     }
