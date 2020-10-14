@@ -1,8 +1,7 @@
 import { MessageModel, Permission } from 'common';
 import { Router } from 'express';
 import { MessageDAO } from '../dao/messagedao';
-import { wrap } from '../util';
-import { hasPermission } from './commentairerouter';
+import { hasPermission, wrap } from '../util';
 
 const messageRouter = Router();
 const messageDAO = new MessageDAO;

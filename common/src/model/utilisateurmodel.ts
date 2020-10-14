@@ -9,6 +9,10 @@ export class UtilisateurModel {
     public courriel?: string;
     public roles: Role[];
 
+    constructor() {
+        this.roles = [];
+    }
+
     public static fromJSON(jsonUtilisateurModel: UtilisateurModel) {
         const utilisateurModel = new UtilisateurModel;
         Object.assign(utilisateurModel, jsonUtilisateurModel);

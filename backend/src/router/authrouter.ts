@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
+import { Permission, UtilisateurModel } from 'common';
 import { Router } from 'express';
 import passport from 'passport';
 import { AuthDAO } from '../dao/authdao';
-import { wrap } from '../util';
+import { hasPermission, wrap } from '../util';
 
 const authRouter = Router();
 const authDAO = new AuthDAO;
@@ -25,6 +26,7 @@ authRouter.post('/logout', wrap(async (req, res) => {
     return res.send();
 }));
 
+//inscription de client régulier avec aucune permission
 authRouter.post('/user', wrap(async (req, res) => {
     const user = req.body;
     user.password = await bcrypt.hash(user.password, 12);
@@ -35,10 +37,48 @@ authRouter.post('/user', wrap(async (req, res) => {
     return res.send(createdUser);
 }));
 
-authRouter.get('/user', wrap(async (req, res) => {
+
+//-----------------------------------------------------------------
+// ------------ manage user permissions and account ---------------
+//-----------------------------------------------------------------
+
+// obtenir tout les utilisateurs
+authRouter.get('/manage', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
+    if (!req.user) { return res.sendStatus(403); }
+    const users = await authDAO.getUtilisateurs();
+    return res.send(req.users);
+}));
+
+authRouter.get('/manage/current', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
     if (!req.user) { return res.sendStatus(404); }
     return res.send(req.user);
 }));
+
+authRouter.post('/manage', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
+    const user = req.body;
+    user.password = await bcrypt.hash(user.password, 12);
+    const createdUserId = await authDAO.createUtilisateur(user);
+    if (createdUserId === null) { return res.sendStatus(400); }
+    const createdUser = (await authDAO.getUtilisateurById(createdUserId))!;
+    delete createdUser.password;
+    return res.send(createdUser);
+}));
+
+authRouter.put('/manage/:utilisateurId', hasPermission(Permission.manageUsers), wrap(async (req, res) => {
+    const user: UtilisateurModel = req.body;
+    user.utilisateurId = parseInt(req.params.utilisateurId);
+    if (user.password) {
+        user.password = await bcrypt.hash(user.password, 12);
+    }
+
+    await authDAO.updateUser(user);
+
+    const updateUser = (await authDAO.getUtilisateurById(user.utilisateurId))!;
+    delete updateUser.password;
+    return res.send(updateUser);
+}));
+
+//-----------------------------------------------------------------
 
 const loginHandler = async (username: string, password: string, done: (error: any, user?: any) => void) => {
     const utilisateur = await authDAO.getUtilisateur(username);

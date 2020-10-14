@@ -18,7 +18,6 @@ export class RegisterForm extends React.Component<Props, State> {
     }
 
     public render() {
-        if (this.context.user === undefined) { return null; }
         return <div className='container-form'>
             <form onSubmit={this.register} className='form-register'>
                 <h2>Inscription</h2>

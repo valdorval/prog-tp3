@@ -19,7 +19,6 @@ export class LoginForm extends React.Component<Props, State> {
     }
 
     public render() {
-        if (this.context.user === undefined) { return null; }
         return <div className='container-form'>
             <form onSubmit={this.login} className='form-login' >
                 <h2>Se connecter</h2>

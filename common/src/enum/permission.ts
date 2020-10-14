@@ -4,7 +4,8 @@ export enum Permission {
     createCommentaire = 'createCommentaire',
     deleteCommentaire = 'deleteCommentaire',
     cacherCommentaire = 'cacherCommentaire',
-    modifierMessage = 'modifierMessage'
+    modifierMessage = 'modifierMessage',
+    manageUsers = 'manageUsers'
 }
 
 export const rolePermissions = {
@@ -12,7 +13,8 @@ export const rolePermissions = {
         Permission.deleteCommentaire,
         Permission.cacherCommentaire,
         Permission.modifierMessage,
-        Permission.createCommentaire
+        Permission.createCommentaire,
+        Permission.manageUsers
     ],
     [Role.user]: [
         Permission.createCommentaire

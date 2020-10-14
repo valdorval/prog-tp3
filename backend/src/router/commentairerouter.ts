@@ -1,9 +1,8 @@
 import { CommentaireModel, Permission } from 'common';
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { CommentaireDAO } from '../dao/commentairedao';
-import { wrap } from '../util';
+import { hasPermission, wrap } from '../util';
 import { utilisateurRouter } from './utilisateurrouter';
-
 
 const commentaireRouter = Router();
 const commentaireDAO = new CommentaireDAO;
@@ -51,12 +50,3 @@ commentaireRouter.delete('/:commentaireId', hasPermission(Permission.deleteComme
 commentaireRouter.use('/:commentaireId/utilisateur', utilisateurRouter);
 
 export { commentaireRouter };
-
-export function hasPermission(permission: Permission) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        if (!req.user?.hasPermission(permission)) {
-            return res.sendStatus(403);
-        }
-        return next();
-    };
-}
