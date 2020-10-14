@@ -1,4 +1,5 @@
 import { Api } from 'api';
+import { UserContext } from 'context/usercontext';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CommentaireModel, UtilisateurModel } from '../../../common';
@@ -12,6 +13,8 @@ interface State {
 }
 
 export class AfficherCommentaire extends React.Component<Props, State> {
+     public static contextType = UserContext;
+     public context: UserContext;
 
      private api = new Api;
 
@@ -28,8 +31,9 @@ export class AfficherCommentaire extends React.Component<Props, State> {
 
      public render() {
           const { messages, utilisateurs } = this.state;
-          if (!messages || !utilisateurs) { return 'Chargement...'; }
+          const { user } = this.context;
 
+          if (!messages || !utilisateurs || user === undefined) { return 'Chargement...'; }
           return <>
                {messages!.map(message => {
                     const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);

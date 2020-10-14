@@ -8,7 +8,7 @@ const authRouter = Router();
 const authDAO = new AuthDAO;
 
 // probs here
-authRouter.get('/login', passport.authenticate('local', { session: true }), (req, res) => {
+authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
     if (req.user) {
         res.send(req.user);
     } else {
@@ -16,7 +16,7 @@ authRouter.get('/login', passport.authenticate('local', { session: true }), (req
     }
 });
 
-authRouter.get('/logout', wrap(async (req, res) => {
+authRouter.post('/logout', wrap(async (req, res) => {
     if (!req.session) { return res.send(); }
     req.session.destroy(err => {
         if (err !== undefined) {

@@ -45,8 +45,8 @@ export class Accueil extends React.Component<Props, State> {
 
                          <Link to='/avis'><div className='center' style={{ marginTop: '50px' }}><button className='btn'>Voir les avis</button></div></Link>
                     </div>
-               </section >;
-          </>
+               </section >
+          </>;
      }
 
      private editMessage = async (e: React.FormEvent) => {
