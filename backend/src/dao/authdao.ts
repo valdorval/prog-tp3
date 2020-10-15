@@ -11,12 +11,6 @@ export class AuthDAO {
         return utilisateur;
     }
 
-    public async getUtilisateurs() {
-        const users: UtilisateurModel[] = await this.knex('utilisateur').select('utilisateurId', 'username');
-        await Promise.all(users.map(this.hydrate));
-        return users;
-    }
-
     public async getUtilisateurById(utilisateurId: number) {
         const utilisateur: UtilisateurModel | undefined = await this.knex('utilisateur').first('utilisateurId', 'username', 'password').where({ utilisateurId });
         if (!utilisateur) { return utilisateur; }
@@ -25,6 +19,12 @@ export class AuthDAO {
     }
 
     //create normal user
+    public async getUtilisateurs() {
+        const users: UtilisateurModel[] = await this.knex('utilisateur').select('utilisateurId', 'username');
+        await Promise.all(users.map(this.hydrate));
+        return users;
+    }
+
     public async createUtilisateur(user: UtilisateurModel) {
         const { username, password, name, courriel } = user;
         try {

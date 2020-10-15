@@ -2,13 +2,13 @@ import { Api } from 'api';
 import { UserContext } from 'context/usercontext';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CommentaireModel, Permission, UtilisateurModel } from '../../../common';
+import { CommentaireModel, Permission } from '../../../common';
 import { NouveauCommentaire } from './nouveaucommentaire';
 
 interface Props { }
 interface State {
-    utilisateurs?: UtilisateurModel[];
-    messages: CommentaireModel[]; message: CommentaireModel;
+    messages: CommentaireModel[];
+    message: CommentaireModel;
 }
 
 export class ShowCommentaire extends React.Component<Props, State> {
@@ -24,26 +24,23 @@ export class ShowCommentaire extends React.Component<Props, State> {
 
     public async componentDidMount() {
         const messages = (await this.api.getJson('/commentaire') as any[]).map(CommentaireModel.fromJSON);
-        const utilisateurs = (await this.api.getJson('/utilisateur') as any[]).map(UtilisateurModel.fromJSON);
 
-        this.setState({ messages, utilisateurs });
+        this.setState({ messages });
     }
 
     public render() {
-        const { messages, utilisateurs } = this.state;
+        const { messages } = this.state;
         const { user } = this.context;
 
-        if (!messages || !utilisateurs || user === undefined) { return 'Chargement...'; }
+        if (!messages || user === undefined) { return 'Chargement...'; }
         return <>
             {messages!.map(message => {
-                const utilisateur = utilisateurs.find(u => message.utilisateurId === u.utilisateurId);
-
                 return <>
                     <div key={message.commentaireId} className='content'>
                         <div className='content-texte'>
                             {message.hide === 0 ?
                                 <div className={'texte'}>
-                                    <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
+                                    <Link to={`/avis/${message.commentaireId}`}><h3>Auteur: {message.name ? message.name : 'Anonyme'} </h3></Link>
                                     <p>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                     <p>Commentaire: {message.message}</p>
                                 </div>
@@ -53,7 +50,7 @@ export class ShowCommentaire extends React.Component<Props, State> {
                                 <div className='content-texte'>
                                     <div className={'texte'}>
                                         <p>Ce commentaire est caché des autres utilisateurs</p>
-                                        <Link to={`/avis/${message.commentaireId}`}><h3 className={message.hide === 1 ? 'hide-comment' : ''}>Auteur: {utilisateur?.name || message.name ? message.name || utilisateur?.name : 'Anonyme'} </h3></Link>
+                                        <Link to={`/avis/${message.commentaireId}`}><h3 className={message.hide === 1 ? 'hide-comment' : ''}>Auteur: {message.name ? message.name : 'Anonyme'} </h3></Link>
                                         <p className={message.hide === 1 ? 'hide-comment' : ''}>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                         <p className={message.hide === 1 ? 'hide-comment' : ''}>Commentaire: {message.message}</p>
                                     </div>

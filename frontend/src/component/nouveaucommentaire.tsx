@@ -1,4 +1,5 @@
 import { Api } from 'api';
+import { UserContext } from 'context/usercontext';
 import React from 'react';
 import { CommentaireModel } from '../../../common/dist';
 
@@ -9,6 +10,8 @@ interface State {
 }
 
 export class NouveauCommentaire extends React.Component<Props, State> {
+     public static contextType = UserContext;
+     public context: UserContext;
      private api = new Api;
 
      constructor(props: Props) {
@@ -18,9 +21,13 @@ export class NouveauCommentaire extends React.Component<Props, State> {
 
      public render() {
           return <>
-               <h2 style={{ textAlign: 'center' }}>Dites-nous ce que vous en pensez</h2>
+               <h2 style={{ textAlign: 'center' }}>Dites-nous ce que vous en pensez </h2>
                <form onSubmit={this.newCommentaire} className='center'>
-                    <div><input type='text' placeholder='Votre nom' value={this.state.name ?? ''} onChange={e => this.setState({ name: e.target.value })} /></div>
+                    <div>
+                         <input type='text'
+                              value={this.state.name ?? ''}
+                              onChange={e => this.setState({ name: e.target.value })} />
+                    </div>
                     <div><textarea maxLength={500} placeholder='Votre commentaire' required={true} value={this.state.message ?? ''} onChange={e => this.setState({ message: e.target.value })} /></div>
                     <button>Nouveau commentaire</button>
                </form>
