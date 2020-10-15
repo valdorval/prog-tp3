@@ -1,12 +1,15 @@
 import { Api } from 'api';
+import { UserContext } from 'context/usercontext';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MessageModel } from '../../../common/dist';
+import { MessageModel, Permission } from '../../../common/dist';
 
 interface Props { }
 interface State { message?: MessageModel; }
 
 export class Accueil extends React.Component<Props, State> {
+     public static contextType = UserContext;
+     public context: UserContext;
      private api = new Api;
 
      constructor(props: Props) {
@@ -35,13 +38,16 @@ export class Accueil extends React.Component<Props, State> {
                          <p style={{ fontSize: '45px' }}><strong>Présentation </strong></p>
 
                          <h4>{this.state.message?.presentation}</h4>
-                         <form className='center' onSubmit={this.editMessage}>
-                              <div><textarea placeholder='Modifier le message' required={true} value={newMessage ?? ''} onChange={e => {
-                                   message.presentation = e.target.value;
-                                   this.setState({ message });
-                              }} /></div>
-                              <input type='submit' value='envoyer' />
-                         </form>
+                         {this.context.user?.hasPermission(Permission.modifierMessage) ?
+                              <form className='center' onSubmit={this.editMessage}>
+                                   <div><textarea placeholder='Modifier le message' required={true} value={newMessage ?? ''} onChange={e => {
+                                        message.presentation = e.target.value;
+                                        this.setState({ message });
+                                   }} /></div>
+                                   <input type='submit' value='envoyer' />
+                              </form>
+                              : ''
+                         }
 
                          <Link to='/avis'><div className='center' style={{ marginTop: '50px' }}><button className='btn'>Voir les avis</button></div></Link>
                     </div>

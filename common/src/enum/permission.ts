@@ -12,12 +12,10 @@ export const rolePermissions = {
     [Role.admin]: [
         Permission.deleteCommentaire,
         Permission.cacherCommentaire,
-        Permission.modifierMessage,
-        Permission.createCommentaire,
         Permission.manageUsers
     ],
-    [Role.user]: [
-        Permission.createCommentaire
+    [Role.receptionist]: [
+        Permission.modifierMessage
     ]
 
 };

@@ -1,6 +1,6 @@
 export enum Role {
     admin = 'admin',
-    user = 'user'
+    receptionist = 'receptionist'
 }
 
-export const roleList = [Role.admin, Role.user];
+export const roleList = [Role.admin, Role.receptionist];
