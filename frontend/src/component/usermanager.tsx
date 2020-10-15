@@ -82,6 +82,7 @@ export class ManageUsers extends React.Component<Props, State> {
             newUser = UtilisateurModel.fromJSON(await this.api.postGetJson('/auth/manage', user));
             alert('Utilisateur créé');
         }
+
         const users = (await this.api.getJson('/auth/manage')).map(UtilisateurModel.fromJSON);
         this.setState({ users, user: newUser });
     };
