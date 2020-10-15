@@ -49,7 +49,6 @@ export class ShowCommentaire extends React.Component<Props, State> {
                             {message.hide === 1 && this.context.user?.hasPermission(Permission.deleteCommentaire) ?
                                 <div className='content-texte'>
                                     <div className={'texte'}>
-                                        <p>Ce commentaire est caché des autres utilisateurs</p>
                                         <Link to={`/avis/${message.commentaireId}`}><h3 className={message.hide === 1 ? 'hide-comment' : ''}>Auteur: {message.name ? message.name : 'Anonyme'} </h3></Link>
                                         <p className={message.hide === 1 ? 'hide-comment' : ''}>Date: {message.date.toLocaleDateString('fr-Ca', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                         <p className={message.hide === 1 ? 'hide-comment' : ''}>Commentaire: {message.message}</p>
@@ -58,23 +57,25 @@ export class ShowCommentaire extends React.Component<Props, State> {
                                 :
                                 ''
                             }
-                            {(this.context.user?.hasPermission(Permission.cacherCommentaire)) ?
-                                <div className='container-button'>
-                                    <div className='retablir'>
-                                        restorer<img src='/img/hide.png' alt='retablir' onClick={() => this.restoreCommentaire(message)} />
+                            <div className='container-button'>
+                                {(this.context.user?.hasPermission(Permission.cacherCommentaire)) ?
+                                    <>
+                                        <div className='retablir' onClick={() => this.restoreCommentaire(message)}>
+                                            restorer
                                     </div>
-                                    <div className='hide'>
-                                        <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                        <div className='hide'>
+                                            <img src='/img/hide.png' alt='caché' onClick={() => this.retirerCommentaire(message)} />
+                                        </div>
+                                    </>
+                                    : ''
+                                }
+                                {(this.context.user?.hasPermission(Permission.deleteCommentaire)) ?
+                                    <div className='delete'>
+                                        <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
                                     </div>
-                                </div>
-                                : ''
-                            }
-                            {(this.context.user?.hasPermission(Permission.deleteCommentaire)) ?
-                                <div className='delete'>
-                                    <img src='/img/delete.png' alt='poubelle' onClick={() => this.deleteCommentaire(message)} />
-                                </div>
-                                : ''
-                            }
+                                    : ''
+                                }
+                            </div>
                         </div>
                     </div>
                 </>;
