@@ -8,7 +8,6 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { configSession } from './config';
 import { AuthDAO } from './dao/authdao';
-import { allusersRouter } from './router/allusersrouter';
 import { authRouter, loginHandler } from './router/authRouter';
 import { commentaireRouter } from './router/commentairerouter';
 import { messageRouter } from './router/messagerouter';
@@ -61,7 +60,6 @@ passport.deserializeUser(async (utilisateurId: number, done) => {
 passport.use(new Strategy(loginHandler));
 
 app.use('/commentaire', commentaireRouter);
-app.use('/utilisateur', allusersRouter);
 app.use('/message', messageRouter);
 app.use('/auth', authRouter);
 

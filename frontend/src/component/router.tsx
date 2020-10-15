@@ -6,7 +6,6 @@ import { Avis } from './avis';
 import { Commentaire } from './commentaire';
 import { LoginForm } from './loginform';
 import { LogoutButton } from './logoutbutton';
-import { RegisterForm } from './registerform';
 import { ManageUsers } from './usermanager';
 
 export class Router extends React.Component<{}> {
@@ -18,7 +17,7 @@ export class Router extends React.Component<{}> {
                <Route path='/avis/:commentaireId' exact={true} component={Commentaire} />
                <Route path='/avis' exact={true}> <Avis /> </Route>
                <Route path='/admin' exact={true}> <ManageUsers /> </Route>
-               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />} {this.context.user ? '' : <RegisterForm />}</Route>
+               <Route path='/' exact={true}> <Accueil /> {this.context.user ? '' : <LoginForm />}</Route>
           </ BrowserRouter>;
      }
 }
