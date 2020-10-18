@@ -26,17 +26,6 @@ authRouter.post('/logout', wrap(async (req, res) => {
     return res.send();
 }));
 
-//inscription de client régulier avec aucune permission
-authRouter.post('/user', wrap(async (req, res) => {
-    const user = req.body;
-    user.password = await bcrypt.hash(user.password, 12);
-    const createdUserId = await authDAO.createUtilisateur(user);
-    if (createdUserId === null) { return res.sendStatus(400); }
-    const createdUser = (await authDAO.getUtilisateurById(createdUserId))!;
-    delete createdUser.password;
-    return res.send(createdUser);
-}));
-
 //-----------------------------------------------------------------
 // ------------ manage user permissions and account ---------------
 //-----------------------------------------------------------------
